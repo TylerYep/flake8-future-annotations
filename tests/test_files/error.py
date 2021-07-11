@@ -1,3 +1,6 @@
-def main() -> str:
-    a_str = "hello"
-    return a_str
+from typing import List
+
+
+def main() -> None:
+    a_list: List[str] = []
+    a_list.append("hello")

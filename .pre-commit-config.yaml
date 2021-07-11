@@ -1,3 +1,4 @@
+exclude: test_files/
 repos:
   - repo: local
     hooks:
