@@ -7,7 +7,7 @@ from flake8_future_annotations.checker import FutureAnnotationsChecker
 
 
 def run_validator_for_test_file(filename: str) -> list[tuple[int, int, str, type]]:
-    raw_content = Path(f"tests/test_files/{filename}").read_text()
+    raw_content = Path(filename).read_text()
     tree = ast.parse(raw_content)
 
     checker = FutureAnnotationsChecker(tree=tree, filename=filename)

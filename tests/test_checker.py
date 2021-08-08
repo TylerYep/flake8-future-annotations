@@ -1,7 +1,12 @@
 import configparser
+from pathlib import Path
+
+import pytest
 
 from conftest import run_validator_for_test_file
 from flake8_future_annotations.checker import FutureAnnotationsChecker
+
+ALL_TEST_FILES = [str(filepath) for filepath in Path("tests/test_files").glob("*.py")]
 
 
 def test_version() -> None:
@@ -10,21 +15,17 @@ def test_version() -> None:
     assert config["metadata"]["version"] == FutureAnnotationsChecker.version
 
 
-def test_ok_cases_produces_no_errors() -> None:
-    errors = run_validator_for_test_file("ok.py")
-    errors += run_validator_for_test_file("ok_non_simplifiable_types.py")
-    errors += run_validator_for_test_file("ok_no_types.py")
-    assert len(errors) == 0
+@pytest.mark.parametrize("filepath", ALL_TEST_FILES)
+def test_ok_cases_produces_no_errors(filepath: str) -> None:
+    if "ok" in filepath:
+        errors = run_validator_for_test_file(str(filepath))
+
+        assert len(errors) == 0, (str(filepath), errors)
 
 
-def test_file_missing_future_import() -> None:
-    errors = run_validator_for_test_file("error.py")
-    assert len(errors) == 1
+@pytest.mark.parametrize("filepath", ALL_TEST_FILES)
+def test_file_missing_future_import(filepath: str) -> None:
+    if "ok" not in filepath:
+        errors = run_validator_for_test_file(str(filepath))
 
-
-def test_multiple_files_missing_future_import() -> None:
-    errors = []
-    for filename in ("ok.py", "error.py", "ok.py", "error.py"):
-        errors += run_validator_for_test_file(filename)
-
-    assert len(errors) == 2
+        assert len(errors) == 1, (str(filepath), errors)

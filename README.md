@@ -6,6 +6,8 @@
 
 Verifies python 3.7+ files use `from __future__ import annotations` if a type is used in the module that can be rewritten using PEP 563.
 
+Pairs well with [pyupgrade](https://github.com/asottile/pyupgrade) with the `--py37-plus` flag or higher, since pyupgrade only replaces type annotations with the PEP 563 rules if `from __future__ import annotations` is present.
+
 For example:
 
 ```python
