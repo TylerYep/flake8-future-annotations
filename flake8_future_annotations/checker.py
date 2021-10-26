@@ -4,7 +4,7 @@ import ast
 from typing import Iterator
 
 # The code F is required in order for errors to appear.
-ERROR_MESSAGE = "F Missing from __future__ import annotations but imports: {}"
+ERROR_MESSAGE = "FA100 Missing from __future__ import annotations but imports: {}"
 SIMPLIFIABLE_TYPES = (
     "DefaultDict",
     "Deque",
