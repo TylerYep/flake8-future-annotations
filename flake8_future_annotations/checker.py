@@ -77,7 +77,7 @@ class FutureAnnotationsVisitor(ast.NodeVisitor):
 
 class FutureAnnotationsChecker:
     name = "flake8-future-annotations"
-    version = "0.0.3"
+    version = "0.0.4"
 
     def __init__(self, tree: ast.Module, filename: str) -> None:
         self.tree = tree
