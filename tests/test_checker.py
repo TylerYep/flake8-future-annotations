@@ -3,8 +3,8 @@ from pathlib import Path
 
 import pytest
 
-from conftest import run_validator_for_test_file
 from flake8_future_annotations.checker import FutureAnnotationsChecker
+from tests.conftest import run_validator_for_test_file
 
 ALL_TEST_FILES = [str(filepath) for filepath in Path("tests/test_files").glob("*.py")]
 
