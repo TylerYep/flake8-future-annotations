@@ -6,7 +6,11 @@ import pytest
 from flake8_future_annotations.checker import FutureAnnotationsChecker
 from tests.conftest import run_validator_for_test_file
 
-ALL_TEST_FILES = [str(filepath) for filepath in Path("tests/test_files").glob("*.py")]
+ALL_TEST_FILES = [
+    str(filepath)
+    for filepath in Path("tests/test_files").glob("*.py")
+    if "__init__.py" not in str(filepath)
+]
 
 
 def test_version() -> None:
