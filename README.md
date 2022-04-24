@@ -22,7 +22,7 @@ def function(a_dict: t.Dict[str, t.Optional[int]]) -> None:
 As a result, this plugin will emit:
 
 ```
-hello.py:1:1: F Missing from __future__ import annotations but imports: List, t.Dict, t.Optional
+hello.py:1:1: FA100 Missing from __future__ import annotations but imports: List, t.Dict, t.Optional
 ```
 
 After adding the future annotations import, running `pyupgrade` allows the code to be automatically rewritten as:
