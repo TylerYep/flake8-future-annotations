@@ -1,10 +1,11 @@
 from __future__ import annotations
 
 import ast
-from typing import Iterator
+from typing import Any, Iterator
 
 # The code F is required in order for errors to appear.
-ERROR_MESSAGE = "FA100 Missing from __future__ import annotations but imports: {}"
+ERROR_MESSAGE_100 = "FA100 Missing from __future__ import annotations but imports: {}"
+ERROR_MESSAGE_101 = "FA101 Missing from __future__ import annotations"
 SIMPLIFIABLE_TYPES = (
     "DefaultDict",
     "Deque",
@@ -78,6 +79,7 @@ class FutureAnnotationsVisitor(ast.NodeVisitor):
 class FutureAnnotationsChecker:
     name = "flake8-future-annotations"
     version = "0.0.4"
+    force_future_annotations = False
 
     def __init__(self, tree: ast.Module, filename: str) -> None:
         self.tree = tree
@@ -86,9 +88,28 @@ class FutureAnnotationsChecker:
     def run(self) -> Iterator[tuple[int, int, str, type]]:
         visitor = FutureAnnotationsVisitor()
         visitor.visit(self.tree)
-        if visitor.imports_future_annotations or not visitor.typing_imports:
+        if visitor.imports_future_annotations:
             return
 
-        imports = ", ".join(visitor.typing_imports)
-        lineno, char_offset = 1, 0
-        yield lineno, char_offset, ERROR_MESSAGE.format(imports), type(self)
+        lineno, char_offset, message = 1, 0, None
+
+        if visitor.typing_imports:
+            message = ERROR_MESSAGE_100.format(", ".join(visitor.typing_imports))
+        elif self.force_future_annotations:
+            message = ERROR_MESSAGE_101
+
+        if message is not None:
+            yield lineno, char_offset, message, type(self)
+
+    @staticmethod
+    def add_options(option_manager: Any) -> None:
+        option_manager.add_option(
+            "--force-future-annotations",
+            action="store_true",
+            parse_from_config=True,
+            help="Force the use of from __future__ import annotations in all files.",
+        )
+
+    @classmethod
+    def parse_options(cls, options: Any) -> None:
+        cls.force_future_annotations = options.force_future_annotations
