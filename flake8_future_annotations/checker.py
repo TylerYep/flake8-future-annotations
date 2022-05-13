@@ -3,7 +3,7 @@ from __future__ import annotations
 import ast
 from typing import Any, Iterator
 
-# The code F is required in order for errors to appear.
+# The code FA is required in order for errors to appear.
 ERROR_MESSAGE_100 = "FA100 Missing from __future__ import annotations but imports: {}"
 ERROR_MESSAGE_101 = "FA101 Missing from __future__ import annotations"
 SIMPLIFIABLE_TYPES = (
@@ -85,6 +85,19 @@ class FutureAnnotationsChecker:
         self.tree = tree
         self.filename = filename
 
+    @classmethod
+    def parse_options(cls, options: Any) -> None:
+        cls.force_future_annotations = options.force_future_annotations
+
+    @staticmethod
+    def add_options(option_manager: Any) -> None:
+        option_manager.add_option(
+            "--force-future-annotations",
+            action="store_true",
+            parse_from_config=True,
+            help="Force the use of from __future__ import annotations in all files.",
+        )
+
     def run(self) -> Iterator[tuple[int, int, str, type]]:
         visitor = FutureAnnotationsVisitor()
         visitor.visit(self.tree)
@@ -100,16 +113,3 @@ class FutureAnnotationsChecker:
 
         if message is not None:
             yield lineno, char_offset, message, type(self)
-
-    @staticmethod
-    def add_options(option_manager: Any) -> None:
-        option_manager.add_option(
-            "--force-future-annotations",
-            action="store_true",
-            parse_from_config=True,
-            help="Force the use of from __future__ import annotations in all files.",
-        )
-
-    @classmethod
-    def parse_options(cls, options: Any) -> None:
-        cls.force_future_annotations = options.force_future_annotations
