@@ -9,7 +9,14 @@ Verifies python 3.7+ files use `from __future__ import annotations` if a type is
 
 Pairs well with [pyupgrade](https://github.com/asottile/pyupgrade) with the `--py37-plus` flag or higher, since pyupgrade only replaces type annotations with the PEP 563 rules if `from __future__ import annotations` is present.
 
-For example:
+## flake8 codes
+
+| Code  | Description                                                               |
+|-------|---------------------------------------------------------------------------|
+| FA100 | Missing import if a type used in the module can be rewritten using PEP563 |
+| FA101 | Missing import when no rewrite using PEP563 is available (see config)     |
+
+## Example
 
 ```python
 import typing as t
@@ -34,3 +41,9 @@ def function(a_dict: dict[str, int | None]) -> None:
     a_list: list[str] = []
     a_list.append("hello")
 ```
+
+## Configuration
+
+This plugin has a single configuration which is the `--force-future-annotations` option.
+
+If set, missing `from __future__ import annotations` will be reported regardless of a rewrite available according to PEP 563; in this case, code FA101 is used instead of FA100.
