@@ -12,9 +12,10 @@ Pairs well with [pyupgrade](https://github.com/asottile/pyupgrade) with the `--p
 ## flake8 codes
 
 | Code  | Description                                                               |
-|-------|---------------------------------------------------------------------------|
+| ----- | ------------------------------------------------------------------------- |
 | FA100 | Missing import if a type used in the module can be rewritten using PEP563 |
 | FA101 | Missing import when no rewrite using PEP563 is available (see config)     |
+| FA102 | Missing import when code uses simplified types (list, dict, set, etc)     |
 
 ## Example
 
@@ -26,6 +27,7 @@ def function(a_dict: t.Dict[str, t.Optional[int]]) -> None:
     a_list: List[str] = []
     a_list.append("hello")
 ```
+
 As a result, this plugin will emit:
 
 ```
@@ -44,6 +46,16 @@ def function(a_dict: dict[str, int | None]) -> None:
 
 ## Configuration
 
-This plugin has a single configuration which is the `--force-future-annotations` option.
+If the `--force-future-annotations` option is set, missing `from __future__ import annotations` will be reported regardless of a rewrite available according to PEP 563; in this case, code FA101 is used instead of FA100.
 
-If set, missing `from __future__ import annotations` will be reported regardless of a rewrite available according to PEP 563; in this case, code FA101 is used instead of FA100.
+If the `--check-future-annotations` option is set, missing `from __future__ import annotations` will be reported because the following code will error on Python versions older than 3.10 (this check does not output anything for versions 3.10+):
+
+```python
+def function(a_dict: dict[str, int | None]) -> None:
+    a_list: list[str] = []
+    a_list.append("hello")
+```
+
+```
+hello.py:1:1: FA102 Missing from __future__ import annotations but uses simplified type annotations: dict, list, union
+```

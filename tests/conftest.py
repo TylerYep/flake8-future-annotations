@@ -7,11 +7,14 @@ from flake8_future_annotations.checker import FutureAnnotationsChecker
 
 
 def run_validator_for_test_file(
-    filename: str, force_future_annotations: bool
+    filename: str,
+    force_future_annotations: bool = False,
+    check_future_annotations: bool = False,
 ) -> list[tuple[int, int, str, type]]:
     raw_content = Path(filename).read_text(encoding="utf-8")
     tree = ast.parse(raw_content)
 
     checker = FutureAnnotationsChecker(tree=tree, filename=filename)
     checker.force_future_annotations = force_future_annotations
+    checker.check_future_annotations = check_future_annotations
     return list(checker.run())
