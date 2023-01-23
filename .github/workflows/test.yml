@@ -25,6 +25,7 @@ jobs:
         python -m pip install mypy pytest pytest-cov
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: mypy
+      if: ${{ matrix.python-version >= '3.9' }}
       run: |
         mypy .
     - name: pytest
