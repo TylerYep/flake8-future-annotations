@@ -27,7 +27,7 @@ jobs:
     - name: mypy
       if: ${{ matrix.python-version >= '3.9' }}
       run: |
-        mypy .
+        mypy --install-types --non-interactive .
     - name: pytest
       run: |
         pytest --cov=flake8_future_annotations --cov-report= --durations=0 --ignore=tests/test_files
