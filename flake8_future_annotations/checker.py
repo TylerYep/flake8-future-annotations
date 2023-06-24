@@ -54,8 +54,9 @@ class FutureAnnotationsVisitor(ast.NodeVisitor):
         for alias in node.names:
             if alias.name == "typing":
                 self.typing_aliases.append("typing")
-            if alias.asname is not None:
-                self.typing_aliases.append(alias.asname)
+
+                if alias.asname is not None:
+                    self.typing_aliases.append(alias.asname)
 
         self.generic_visit(node)
 
