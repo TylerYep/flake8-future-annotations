@@ -17,12 +17,25 @@ ERROR_TEST_FILES = [
     for filepath in ALL_TEST_FILES
     if "ok" not in filepath and "no_future" not in filepath
 ]
+NO_FUTURE_TEST_FILES = {
+    "tests/test_files/no_future_import_uses_lowercase.py": "dict, list",
+    "tests/test_files/no_future_import_uses_union.py": "dict, list, union",
+    "tests/test_files/no_future_import_uses_union_inner.py": (
+        "dict, list, tuple, union"
+    ),
+}
 
 
 def test_version() -> None:
     config = configparser.ConfigParser()
     config.read("setup.cfg")
     assert config["metadata"]["version"] == FutureAnnotationsChecker.version
+
+
+def test_all_files_tested() -> None:
+    assert set(ALL_TEST_FILES) == set(
+        OK_TEST_FILES + ERROR_TEST_FILES + list(NO_FUTURE_TEST_FILES)
+    )
 
 
 @pytest.mark.parametrize("filepath", OK_TEST_FILES)
@@ -57,33 +70,10 @@ def test_file_missing_future_import_with_force_future_annotations(
     assert error[2][:5] == expected_code
 
 
-def test_no_future_import_uses_lowercase() -> None:
-    [error] = run_validator_for_test_file(
-        "tests/test_files/no_future_import_uses_lowercase.py",
-        check_future_annotations=True,
-    )
+@pytest.mark.parametrize("filepath,examples_found", list(NO_FUTURE_TEST_FILES.items()))
+def test_no_future_import(filepath: str, examples_found: str) -> None:
+    [error] = run_validator_for_test_file(filepath, check_future_annotations=True)
     expected_code = "FA102"
 
-    assert "dict, list" in error[2]
-    assert error[2][:5] == expected_code
-
-
-def test_no_future_import_uses_union() -> None:
-    [error] = run_validator_for_test_file(
-        "tests/test_files/no_future_import_uses_union.py", check_future_annotations=True
-    )
-    expected_code = "FA102"
-
-    assert "dict, list, union" in error[2]
-    assert error[2][:5] == expected_code
-
-
-def test_no_future_import_uses_union_inner() -> None:
-    [error] = run_validator_for_test_file(
-        "tests/test_files/no_future_import_uses_union_inner.py",
-        check_future_annotations=True,
-    )
-    expected_code = "FA102"
-
-    assert "dict, list, tuple, union" in error[2]
+    assert examples_found in error[2]
     assert error[2][:5] == expected_code
