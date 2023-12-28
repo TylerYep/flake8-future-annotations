@@ -1,11 +1,11 @@
 # flake8-future-annotations
 
-[![Python 3.7+](https://img.shields.io/badge/python-3.7+-blue.svg)](https://www.python.org/downloads/release/python-370/)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/release/python-380/)
 [![PyPI version](https://badge.fury.io/py/flake8-future-annotations.svg)](https://badge.fury.io/py/flake8-future-annotations)
 [![GitHub license](https://img.shields.io/github/license/TylerYep/flake8-future-annotations)](https://github.com/TylerYep/flake8-future-annotations/blob/main/LICENSE)
 [![Downloads](https://pepy.tech/badge/flake8-future-annotations)](https://pepy.tech/project/flake8-future-annotations)
 
-Verifies python 3.7+ files use `from __future__ import annotations` if a type is used in the module that can be rewritten using [PEP 563](https://www.python.org/dev/peps/pep-0563/).
+Verifies python 3.8+ files use `from __future__ import annotations` if a type is used in the module that can be rewritten using [PEP 563](https://www.python.org/dev/peps/pep-0563/).
 
 Pairs well with [pyupgrade](https://github.com/asottile/pyupgrade) with the `--py37-plus` flag or higher, since pyupgrade only replaces type annotations with the PEP 563 rules if `from __future__ import annotations` is present.
 
