@@ -70,7 +70,9 @@ def test_file_missing_future_import_with_force_future_annotations(
     assert error[2][:5] == expected_code
 
 
-@pytest.mark.parametrize("filepath,examples_found", list(NO_FUTURE_TEST_FILES.items()))
+@pytest.mark.parametrize(
+    ("filepath", "examples_found"), list(NO_FUTURE_TEST_FILES.items())
+)
 def test_no_future_import(filepath: str, examples_found: str) -> None:
     [error] = run_validator_for_test_file(filepath, check_future_annotations=True)
     expected_code = "FA102"
