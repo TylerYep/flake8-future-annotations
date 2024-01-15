@@ -9,6 +9,8 @@ Verifies python 3.8+ files use `from __future__ import annotations` if a type is
 
 Pairs well with [pyupgrade](https://github.com/asottile/pyupgrade) with the `--py37-plus` flag or higher, since pyupgrade only replaces type annotations with the PEP 563 rules if `from __future__ import annotations` is present.
 
+[The flake8-future-annotations plugin, along with autofixes, is now available in Ruff!](https://github.com/astral-sh/ruff/issues/3072)
+
 ## flake8 codes
 
 | Code  | Description                                                               |
@@ -48,7 +50,7 @@ def function(a_dict: dict[str, int | None]) -> None:
 
 If the `--force-future-annotations` option is set, missing `from __future__ import annotations` will be reported regardless of a rewrite available according to PEP 563; in this case, code FA101 is used instead of FA100.
 
-If the `--check-future-annotations` option is set, missing `from __future__ import annotations` will be reported because the following code will error on Python versions older than 3.10 (this check does not output anything for versions 3.10+):
+If the `--check-future-annotations` option is set, missing `from __future__ import annotations` will be reported because the following code will error on Python versions older than 3.10 (this check should not be enabled on Python 3.10+):
 
 ```python
 def function(a_dict: dict[str, int | None]) -> None:
