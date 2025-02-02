@@ -24,7 +24,7 @@ jobs:
         python -m pip install --upgrade uv
         uv pip install --system mypy pytest pytest-cov
     - name: mypy
-      if: ${{ matrix.python-version >= '3.12' }}
+      if: ${{ matrix.python-version == 3.12 }}
       run: |
         mypy --install-types --non-interactive .
     - name: pytest
