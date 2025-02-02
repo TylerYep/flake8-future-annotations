@@ -1,7 +1,10 @@
 from __future__ import annotations
 
 import ast
-from typing import Any, Iterator
+from typing import TYPE_CHECKING, Any
+
+if TYPE_CHECKING:
+    from collections.abc import Iterator
 
 # The code FA is required in order for errors to appear.
 ERROR_MESSAGE_100 = "FA100 Missing from __future__ import annotations but imports: {}"
@@ -119,7 +122,7 @@ class FutureAnnotationsVisitor(ast.NodeVisitor):
             self.process_annotation(node.right)
         elif isinstance(node, ast.Index):
             # Index is only used in Python 3.7 and 3.8, deprecated after.
-            self.process_annotation(node.value)  # type: ignore[attr-defined]
+            self.process_annotation(node.value)
 
 
 class FutureAnnotationsChecker:
