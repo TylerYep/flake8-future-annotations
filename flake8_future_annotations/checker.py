@@ -122,7 +122,7 @@ class FutureAnnotationsVisitor(ast.NodeVisitor):
             self.process_annotation(node.right)
         elif isinstance(node, ast.Index):
             # Index is only used in Python 3.7 and 3.8, deprecated after.
-            self.process_annotation(node.value)
+            self.process_annotation(node.value)  # type: ignore[attr-defined]
 
 
 class FutureAnnotationsChecker:
