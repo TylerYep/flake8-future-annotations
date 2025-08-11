@@ -1,4 +1,4 @@
-import configparser
+import tomllib
 from pathlib import Path
 
 import pytest
@@ -27,9 +27,9 @@ NO_FUTURE_TEST_FILES = {
 
 
 def test_version() -> None:
-    config = configparser.ConfigParser()
-    config.read("setup.cfg")
-    assert config["metadata"]["version"] == FutureAnnotationsChecker.version
+    with Path("pyproject.toml").open("rb") as f:
+        config = tomllib.load(f)
+        assert config["project"]["version"] == FutureAnnotationsChecker.version
 
 
 def test_all_files_tested() -> None:
