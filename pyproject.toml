@@ -6,7 +6,6 @@ authors = [
     { name = "Tyler Yep", email = "tyep@cs.stanford.edu" },
 ]
 readme = "README.md"
-license = "MIT"
 classifiers = [
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
@@ -81,7 +80,7 @@ module = [
 ignore_errors = true
 
 [tool.ruff]
-target-version = "py313"
+target-version = "py38"
 lint.select = ["ALL"]
 lint.ignore = [
 	"ANN401",  # Dynamically typed expressions (typing.Any) are disallowed
