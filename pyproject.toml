@@ -44,7 +44,7 @@ FA = "flake8_future_annotations.checker:FutureAnnotationsChecker"
 
 [build-system]
 requires = [
-    "setuptools>=61.2",
+    "setuptools>=83.0.0",
 ]
 build-backend = "setuptools.build_meta"
 
