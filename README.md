@@ -25,6 +25,7 @@ Pairs well with [pyupgrade](https://github.com/asottile/pyupgrade) with the `--p
 import typing as t
 from typing import List
 
+
 def function(a_dict: t.Dict[str, t.Optional[int]]) -> None:
     a_list: List[str] = []
     a_list.append("hello")
@@ -40,6 +41,7 @@ After adding the future annotations import, running `pyupgrade` allows the code 
 
 ```python
 from __future__ import annotations
+
 
 def function(a_dict: dict[str, int | None]) -> None:
     a_list: list[str] = []
