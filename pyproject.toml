@@ -60,6 +60,7 @@ license-files = [
 
 [tool.setuptools.packages.find]
 namespaces = false
+exclude = ["tests*"]
 
 [tool.setuptools.package-data]
 flake8_future_annotations = [
